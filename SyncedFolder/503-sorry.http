@@ -1,0 +1,14 @@
+HTTP/1.1 503 Service Unavailable
+Cache-Control: no-cache
+Connection: close
+Content-Type: text/html
+
+<!DOCTYPE html>
+<html>
+<head><title>Servicio no disponible</title></head>
+<body style="font-family:sans-serif; text-align:center; margin-top:80px;">
+  <h1>Lo sentimos</h1>
+  <p>En este momento no hay servidores disponibles para atender tu solicitud.</p>
+  <p>Estamos trabajando para resolverlo. Intenta de nuevo en unos minutos.</p>
+</body>
+</html>
