@@ -19,10 +19,16 @@ Vagrant.configure("2") do |config|
     servidorUbuntu.vm.box = "bento/ubuntu-22.04"
     servidorUbuntu.vm.network :private_network, ip: "192.168.56.3"
     servidorUbuntu.vm.provision "shell", inline: <<-SHELL
+      
+      #DESCOMENTAR TODO SOLO PARA LA PRIMERA EJECUCIÓN
 
-      #apt update && apt upgrade #Solo la primera vez que se ejecuta el script
+      #wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+      #echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+      #apt update && apt upgrade 
+
+      #apt install consul
       #apt install haproxy
-      apt-get install -y dos2unix haproxy
+      #apt-get install -y dos2unix haproxy
 
       cp /home/vagrant/SyncedFolder/Haproxyconfig.cfg /etc/haproxy/haproxy.cfg
       cp /home/vagrant/SyncedFolder/503-sorry.http /etc/haproxy/errors/503-sorry.http
@@ -33,13 +39,12 @@ Vagrant.configure("2") do |config|
       systemctl enable haproxy
       systemctl restart haproxy
 
-
       consul agent -ui -dev -bind=192.168.56.3 -client=0.0.0.0 -data-dir=/tmp/consul > /dev/null 2>&1 & #Cluster consul
     SHELL
 
   end
 
-    config.vm.define :servidorUbuntu2 do |servidorUbuntu2|
+  config.vm.define :servidorUbuntu2 do |servidorUbuntu2|
     servidorUbuntu2.vm.box = "bento/ubuntu-22.04"
     servidorUbuntu2.vm.network :private_network, ip: "192.168.56.4"
     servidorUbuntu2.vm.hostname = "servidorUbuntu2"
@@ -49,8 +54,11 @@ Vagrant.configure("2") do |config|
     #apt-get remove -y --purge nodejs npm libnode-dev libnode72 nodejs-doc || true
     #apt-get autoremove -y
 
-    curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-    apt-get install -y nodejs
+    #curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+    #apt-get install -y nodejs
+
+    #npm install consul
+    #npm install express
 
     nohup node /home/vagrant/SyncedFolder/server.js 8080 > /tmp/node.log 2>&1 & #App
     disown
@@ -60,7 +68,7 @@ Vagrant.configure("2") do |config|
     SHELL
   end
 
-    config.vm.define :servidorUbuntu3 do |servidorUbuntu3|
+  config.vm.define :servidorUbuntu3 do |servidorUbuntu3|
     servidorUbuntu3.vm.box = "bento/ubuntu-22.04"
     servidorUbuntu3.vm.network :private_network, ip: "192.168.56.5"
     servidorUbuntu3.vm.hostname = "servidorUbuntu3"
@@ -72,6 +80,9 @@ Vagrant.configure("2") do |config|
 
     #curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
     #apt-get install -y nodejs
+
+    #npm install consul
+    #npm install express
 
     nohup node /home/vagrant/SyncedFolder/server.js 8081 > /tmp/node.log 2>&1 & #App 2
     disown

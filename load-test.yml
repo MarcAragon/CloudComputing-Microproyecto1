@@ -1,0 +1,19 @@
+config:
+  target: "http://192.168.56.3:80"
+  phases:
+    - duration: 30
+      arrivalRate: 10
+
+    - duration: 30
+      arrivalRate: 50
+
+    - duration: 30
+      arrivalRate: 100
+
+    - duration: 30
+      arrivalRate: 200
+
+scenarios:
+  - flow:
+      - get:
+          url: "/"
